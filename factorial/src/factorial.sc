@@ -6,7 +6,5 @@ object factorial {
   	loop(1, n)
  	}                                         //> factorial: (n: Int)Int
  	
- 	factorial(0)                              //> res0: Int = 1
- 	factorial(1)                              //> res1: Int = 1
- 	factorial(6)                              //> res2: Int = 720
+	factorial(1)
 }
