@@ -21,6 +21,14 @@ object FunSets {
    * Returns the set of the one given element.
    */
   def singletonSet(elem: Int): Set = (x: Int) => x == elem
+  
+  /**
+   * Returns an empty set
+   */
+  
+  def emptySet: Set = (x: Int) => false
+  
+  def iota(n: Int): Set = (x: Int) => x > 0 && x <= n
 
   /**
    * Returns the union of the two given sets,
@@ -38,12 +46,12 @@ object FunSets {
    * Returns the difference of the two given sets,
    * the set of all elements of `s` that are not in `t`.
    */
-  def diff(s: Set, t: Set): Set = ???
+  def diff(s: Set, t: Set): Set = (x: Int) => contains(s, x) && ! contains(t, x)
 
   /**
    * Returns the subset of `s` for which `p` holds.
    */
-  def filter(s: Set, p: Int => Boolean): Set = ???
+  def filter(s: Set, p: Int => Boolean): Set = (e: Int) => contains(s, e) && p(e)
 
   /**
    * The bounds for `forall` and `exists` are +/- 1000.
@@ -55,24 +63,26 @@ object FunSets {
    */
   def forall(s: Set, p: Int => Boolean): Boolean = {
     def iter(a: Int): Boolean = {
-      if (???) ???
-      else if (???) ???
-      else iter(???)
+      if (a > bound) true
+      else if (contains(s, a) && ! p(a)) false
+      else iter(a + 1)
     }
-    iter(???)
+    iter(-bound)
   }
 
   /**
    * Returns whether there exists a bounded integer within `s`
    * that satisfies `p`.
    */
-  def exists(s: Set, p: Int => Boolean): Boolean = ???
+  def exists(s: Set, p: Int => Boolean): Boolean = {
+    ! forall(s, e => !p(e))
+  }
 
   /**
    * Returns a set transformed by applying `f` to each element of `s`.
    */
-  def map(s: Set, f: Int => Int): Set = ???
-
+  def map(s: Set, f: Int => Int): Set = (e: Int) => exists(s, ee => f(ee) == e)
+  
   /**
    * Displays the contents of a set
    */

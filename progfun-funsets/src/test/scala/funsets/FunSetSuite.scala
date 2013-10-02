@@ -118,4 +118,73 @@ class FunSetSuite extends FunSuite {
       assert(! contains(intersect(s, s2), 1), "Intersect 3")
     }
   }
+  
+  test("diff") {
+    new TestSets {
+      val s = union(s1, s2)
+      assert(contains(diff(s, s1), 2))
+      assert(! contains(diff(s, s1), 1))
+      assert(! contains(diff(s1, s), 1))
+      assert(! contains(diff(s1, s), 2))
+    }
+  }
+  
+  test("filter") {
+    new TestSets {
+      val s = union(s1, s2)
+      
+      assert(contains(filter(s, (e: Int) => true), 1))
+      assert(contains(filter(s, (e: Int) => true), 2))
+      assert(!contains(filter(s, (e: Int) => true), 3))
+      assert(contains(filter(s, (e: Int) => (e % 2 == 0)), 2))
+      assert(!contains(filter(s, (e: Int) => (e % 2 == 0)), 1))
+    }
+  }
+  
+  
+  test("forall") {
+    new TestSets {
+      val s = union(s1, s2)
+      assert(forall(s1, e => e == 1))
+      assert(!forall(s1, e => e == 2))
+      assert(forall(s, e => e > 0))
+      assert(!forall(s, e => e == 1))
+    }
+  }
+  
+  test("forall 2") {
+    new TestSets {
+      val s = iota(10)
+      
+      assert(forall(s, e => e > 0))
+      assert(!forall(s, e => e == 4))
+      assert(!forall(s, e => false))
+      assert(forall(s, e => true))
+      assert(!forall(s, e => e % 2 == 0))
+      assert(forall(s, e=> e % 100 == e))
+    }
+  }
+  
+  test("exists") {
+    new TestSets {
+      val s = iota(10)
+      
+      assert(exists(s, e => e == 5))
+      assert(! exists(s, e => e == 11))
+      assert(exists(s, e => e < 100))
+      assert(! exists(s, e => e > 100))
+    }
+  }
+  
+  test("map") {
+    new TestSets {
+      val empty = emptySet
+      val s = iota(10)
+      val squares = map(s, x => x * x)
+      assert(contains(map(s, x => x * x), 1))
+      assert(contains(map(s, x => x * x), 4))
+      assert(!contains(map(s, x => x * x), 3))
+      assert(contains(map(s, x => x * x), 81))
+    }
+  }
 }
